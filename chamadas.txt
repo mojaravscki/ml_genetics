@@ -1,0 +1,52 @@
+##nova orderm
+
+numexecs=50   ###coloque aqui a quantidade de vezes que deseja rodar o algoritimo - 
+varcount=0
+while varcount < numexecs:
+    ### 1 # a funcao cromosall pega os dados da tabelas Book.csv e mutilica pelos numeros aleatorio gerados anteriormente pelos funcao criar gene
+    cromosall()
+    ### 2 # a funcao colunas, cria colunas vazias chamadas Fitness e Resultado
+    colunas()
+    ### 3 # a funcao aoui determina seos valores gerados em cromosall se e positivo recebe A e negativo recebe I
+    aoui()
+    #a funcao certoerrado, compara os dados com a base original e determina se acerto ou errou
+    certoerrado()
+    ## a funcao serpararoriginal, pega o resultado da funcao certo ou erra e conta todos que foram separados corretamente, que o orignal bate com o resultado.
+    separaroriginal()
+    ## a funcao base original conta os adimplentes e inadimplentes
+    baseoriginal()
+    
+    ## a funcao fitness, verificar a porcetagem de acerto em relacao a base original
+    dfcromo1 = fitness(df1acertoa,df1acertoi)
+    dfcromo2 = fitness(df2acertoa,df2acertoi)
+    dfcromo3 = fitness(df3acertoa,df3acertoi)
+    dfcromo4 = fitness(df4acertoa,df4acertoi)
+    dfcromo5 = fitness(df5acertoa,df5acertoi)
+    dfcromo6 = fitness(df6acertoa,df6acertoi)
+    ## a funcao serpararoriginal, pega o resultado da funcao certo ou erra e conta todos que foram separados corretamente, que o orignal bate com o resultado.
+    separaroriginal()
+    ### a funcao paimaeorganizado organiza o os dois piores cromossomos do pai mae
+    paimaeorganizado()
+    ### 1 # a funcao novoscromos gera os filhos dos piores cromossomos do pai e mae - 3 filhos
+    novoscromos(pai, mae)
+    ## 2 # quarternio dos filhos
+    dff1=quarternio(dffilho1)
+    dff2=quarternio(dffilho2)
+    dff3=quarternio(dffilho3)
+    ### 3 # Criarcoluna resultado
+    dff1, dff2, dff3 = resultadofilho(dff1,dff2,dff3)
+    ### 4 # Difine I ou A no filho
+    aouifilho()
+    ## 5 #  Comparar os reusltados com a base original e determina se ERRADO OU CORRETO
+    certououerradofilho()
+    ### 6 #  contar os acertos e erros em cada filho (gera como resultado o df1acertoa e df1acertoi) 
+    separarfilho()
+    dffcromo1 = fitness(df1acertoa,df1acertoi)
+    dffcromo2 = fitness(df2acertoa,df2acertoi)
+    dffcromo3 = fitness(df3acertoa,df3acertoi)
+    ### a funcao filhoorganizado organiza o os dois melhroes cromossomos de filhos
+    filhoorganizado()
+    ### a funcao compara resultado - se os novos cromossomos filhos, soa gerar melhores resultados no quaternio e entao substitui os cromossomos pais mar
+    compararesultado()
+    varcount=varcount+1
+

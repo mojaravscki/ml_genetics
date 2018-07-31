@@ -1,0 +1,636 @@
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+### 0 # coloca paimae na tabela - separa pior pai - pior mae
+
+def paimaeorganizado():
+    global pai, mae, organizado
+    dfcromos = [['df1', 'cromo1',dfcromo1],['df2', 'cromo2',dfcromo2],['df3', 'cromo3',dfcromo3],['df4', 'cromo4',dfcromo4],['df5', 'cromo5',dfcromo5],['df6', 'cromo6',dfcromo6]]
+    #print dfcromos
+    organizado = pd.DataFrame(dfcromos,columns=['Name','Cromo','Value'])
+    #print organizado
+    organizado = organizado.sort_values(by='Value')
+    #print organizado
+    organizado = organizado.reset_index(drop=True)
+    #print "Novo"
+    #print organizado
+    #print organizado.Cromo[0]
+    #paix=vars()[organizado.Cromo[0]]
+    pai=globals()[organizado.Cromo[0]]
+    #maex=vars()[organizado.Cromo[1]]
+    mae=globals()[organizado.Cromo[1]]
+    #print pai
+    return pai, mae, organizado
+    
+
+
+### 1 #
+def novoscromos(pai, mae):
+    print "Gerando os novos cromossomos - combinando pior pai - pior mae"
+    global dffilho1
+    global dffilho2
+    global dffilho3
+    nuanceid=dfx.shape[0]
+    start=0
+    inicio=0
+    arr1 = np.array([])
+    arr2 = np.array([])
+    arr3 = np.array([])
+    varloop=0
+    while varloop < 18:
+        paimae=random.choice(['pai','mae'])
+        print paimae
+        if paimae == 'pai':
+            filho1=pai[0][random.randint(0,17)]
+            filho1=np.array(filho1)
+            arr1 = np.hstack((arr1, filho1))
+            filho2=pai[0][random.randint(0,17)]
+            filho2=np.array(filho2)
+            arr2 = np.hstack((arr2, filho2))
+            filho3=pai[0][random.randint(0,17)]
+            filho3=np.array(filho3)
+            arr3 = np.hstack((arr3, filho3))
+        elif paimae == 'mae':
+            filho1=mae[0][random.randint(0,17)]
+            filho1=np.array(filho1)   
+            arr1 = np.hstack((arr1, filho1))
+            filho2=mae[0][random.randint(0,17)]
+            filho2=np.array(filho2)
+            arr2 = np.hstack((arr2, filho2))
+            filho3=mae[0][random.randint(0,17)]
+            filho3=np.array(filho2)
+            arr3 = np.hstack((arr3, filho3))
+        dffilho1=pd.DataFrame(arr1)
+        dffilho2=pd.DataFrame(arr2)
+        dffilho3=pd.DataFrame(arr3)
+        varloop=varloop+1
+    return dffilho1, dffilho2, dffilho3
+#######
+
+
+
+
+### 2 # 
+
+def quarternio(cromo):
+    print "Executando o quarternio"
+    ##### novo aleatorio
+    nuanceid=dfx.shape[0]
+    start=0
+    inicio=0
+    arr1 = np.array([])
+    arr2 = np.array([])
+    arr3 = np.array([]) 
+    arr4 = np.array([]) 
+    arr5 = np.array([])
+    arr6 = np.array([])
+    while start < nuanceid:
+############### CROMO 1
+        soma1= []
+        #print start
+        soma1=cromo.ix[0]*dfx['nuance11'][start]
+        #print cromo.ix[0]
+        soma1=soma1+cromo.ix[1]*dfx['nuance12'][start]
+        soma1=soma1+cromo.ix[2]*dfx['nuance21'][start]
+        soma1=soma1+cromo.ix[3]*dfx['nuance22'][start]
+        soma1=soma1+cromo.ix[4]*dfx['nuance31'][start]
+        soma1=soma1+cromo.ix[5]*dfx['nuance32'][start]
+        soma1=soma1+cromo.ix[6]*dfx['nuance41'][start]
+        soma1=soma1+cromo.ix[7]*dfx['nuance42'][start]
+        soma1=soma1+cromo.ix[8]*dfx['nuance51'][start]
+        soma1=soma1+cromo.ix[9]*dfx['nuance52'][start]
+        soma1=soma1+cromo.ix[10]*dfx['nuance61'][start]
+        soma1=soma1+cromo.ix[11]*dfx['nuance62'][start]
+        soma1=soma1+cromo.ix[12]*dfx['nuance71'][start]
+        soma1=soma1+cromo.ix[13]*dfx['nuance72'][start]
+        soma1=soma1+cromo.ix[14]*dfx['nuance81'][start]
+        soma1=soma1+cromo.ix[15]*dfx['nuance82'][start]
+        soma1=soma1+cromo.ix[16]*dfx['nuance91'][start]
+        soma1=soma1+cromo.ix[17]*dfx['nuance92'][start]
+        #soma1=soma1+np.random.uniform(-1, 1)
+        test1=soma1.values
+        test1=np.array(test1)
+        arr1 = np.hstack((arr1, test1))
+        #print arr1
+        #print test
+        #f.write(arr)
+        #f.close()
+        dff1=pd.DataFrame(arr1)
+        #print dff1
+        start =start+1
+    return dff1
+
+### 3 # 
+
+###Criarcoluna resultado
+def resultadofilho(dff1,dff2,dff3):
+    print "criando coluna Resutlado e fitneess no cromo filho"
+    dff1["Resultado"] = np.nan
+    dff2["Resultado"] = np.nan
+    dff3["Resultado"] = np.nan
+    dff1["Fitness"] = np.nan
+    dff2["Fitness"] = np.nan
+    dff3["Fitness"] = np.nan
+    return dff1,dff2,dff3
+
+
+### 4 # Criarcoluna resultado
+def aouifilho():
+    names = [dff1,dff2,dff3]
+    ###funcionando - defina A ou I para NAMES -
+    start=0
+    tamanho = len(names) ## 10
+    for name in names:
+        varloop = 0
+        tamanhoescala = len(name["Resultado"])
+        #print name["Resultado"][varloop]
+        while varloop < tamanhoescala:
+            if name[0][varloop] > 0:
+                valor = 'A'
+                name["Resultado"][varloop] = valor
+            elif name[0][varloop] < 0:
+                valor = 'I'
+                name["Resultado"][varloop] = valor
+            varloop = varloop+1
+    return dff1,dff2,dff3
+
+
+
+
+### 5 #  Comparar os reusltados com a base original e determina se ERRADO OU CORRETO
+##valida o fitness vfitness
+
+def certououerradofilho():
+    names = [dff1,dff2,dff3]
+    tamanho = len(names) ## 10
+    tamanhoescala = len(df1["Fitness"])
+    for name in names:
+        varloop = 0
+        while varloop < tamanhoescala:
+            if name['Resultado'][varloop] == df.Resultado[varloop]:
+                valor = 'Correto'
+                name['Fitness'][varloop] = valor
+            elif name['Resultado'][varloop] != df.Resultado[varloop]:
+                valor = 'Errado'
+                name['Fitness'][varloop] = valor
+            varloop = varloop+1
+    return dff1,dff2,dff3
+    
+    
+    
+### 6 #  contar os acertos e erros em cada filho
+
+def separarfilho():
+    acertoi=0
+    acertoa=0
+    erro=0
+    global df1acertoa, df1acertoi, df2acertoa, df2acertoi, df3acertoa , df3acertoi
+    df1acertoa=0
+    df1acertoi=0
+    df2acertoa=0
+    df2acertoi=0
+    df3acertoa=0
+    df3acertoi=0
+    df4acertoa=0
+    df4acertoi=0
+    df5acertoa=0
+    df5acertoi=0
+    df6acertoa=0
+    df6acertoi=0
+    varloop=0
+    tamanhoescala = len(df1["Fitness"])
+    while varloop < tamanhoescala:
+        #print dff3
+        if dff1['Resultado'][varloop] == "A" and dff1['Fitness'][varloop] == "Correto":
+            df1acertoa = df1acertoa + 1
+        elif dff1['Resultado'][varloop] == "I" and dff1['Fitness'][varloop] == "Correto":
+            df1acertoi = df1acertoi + 1
+    ##df2
+        if dff2['Resultado'][varloop] == "A" and dff2['Fitness'][varloop] == "Correto":
+            df2acertoa = df2acertoa + 1
+        elif dff2['Resultado'][varloop] == "I" and dff2['Fitness'][varloop] == "Correto":
+            df2acertoi = df2acertoi + 1
+    ##df3
+        if dff3['Resultado'][varloop] == "A" and dff3['Fitness'][varloop] == "Correto":
+            dff3acertoa = df3acertoa + 1
+        elif dff3['Resultado'][varloop] == "I" and dff3['Fitness'][varloop] == "Correto":
+            df3acertoi = df3acertoi + 1		
+        varloop = varloop+1
+    return df1acertoa, df1acertoi, df2acertoa, df2acertoi, df3acertoa, df3acertoi
+
+######	
+
+
+
+### 7 #  verificar o fitnees para cada filho - procentagem de acerto dos cromossomos
+
+
+
+
+#####Fitness geral funcaio 
+def fitness(acertoa,acertoi):
+    resultado = []
+    basea=(acertoa/totala)
+    basei=(acertoi/totali)
+    resultado=(basea*basei)*100
+    return resultado
+
+
+### 8 #  contar os acertos e erros em cada filho
+def filhoorganizado():
+    global forganizado
+    dffcromos = [['dff1', 'dffilho1',dffcromo1],['dff2', 'dffilho2',dffcromo2],['dff3', 'dffilho3',dffcromo3]]
+    forganizado = pd.DataFrame(dffcromos,columns=['Name','Cromo','Value'])
+    forganizado = forganizado.sort_values(by='Value')
+    forganizado = forganizado.reset_index(drop=True)
+    print "=============="
+    print forganizado
+    print organizado
+    print "=============="
+
+
+### 9 # compara filho organizadp com pai mae organizado e substitui no pai mae
+
+def compararesultado():
+    global cromo1,cromo2,cromo3,cromo4,cromo5,cromo6
+    #print forganizado.Value[2]
+    if forganizado.Value[2] > organizado.Value[0] and organizado.Cromo[0] == 'cromo1':
+        #x=vars()[forganizado.Cromo[2]]
+        x=globals()[forganizado.Cromo[2]]
+        cromo1 = x.copy()
+        return cromo1
+    elif forganizado.Value[2] > organizado.Value[0] and organizado.Cromo[0] == 'cromo2':
+        x=globals()[forganizado.Cromo[2]]
+        cromo2 = x.copy()
+        return cromo2
+    elif forganizado.Value[2] > organizado.Value[0] and organizado.Cromo[0] == 'cromo3':
+        x=globals()[forganizado.Cromo[2]]
+        cromo3 = x.copy()
+        return cromo3
+    elif forganizado.Value[2] > organizado.Value[0] and organizado.Cromo[0] == 'cromo4':
+        x=globals()[forganizado.Cromo[2]]
+        cromo4 = x.copy()
+        return cromo4
+    elif forganizado.Value[2] > organizado.Value[0] and organizado.Cromo[0] == 'cromo5':
+        x=globals()[forganizado.Cromo[2]]
+        cromo5 = x.copy()
+        return cromo5
+    elif forganizado.Value[2] > organizado.Value[0] and organizado.Cromo[0] == 'cromo6':
+       x=globals()[forganizado.Cromo[2]]
+       cromo6 = x.copy()
+       return cromo6
+    #print organizado
+    #print forganizado
+
+
+### 10 # cromosall
+
+
+def cromosall():
+    global df1, df2,df3,df4,df5,df6
+    nuanceid=dfx.shape[0]
+    start=0
+    inicio=0
+    arr1 = np.array([])
+    arr2 = np.array([])
+    arr3 = np.array([]) 
+    arr4 = np.array([]) 
+    arr5 = np.array([])
+    arr6 = np.array([])
+    while start < nuanceid:
+        ############### CROMO 1
+        soma1= []
+        soma1=cromo1.ix[0]*dfx['nuance11'][start]
+        soma1=soma1+cromo1.ix[1]*dfx['nuance12'][start]
+        soma1=soma1+cromo1.ix[2]*dfx['nuance21'][start]
+        soma1=soma1+cromo1.ix[3]*dfx['nuance22'][start]
+        soma1=soma1+cromo1.ix[4]*dfx['nuance31'][start]
+        soma1=soma1+cromo1.ix[5]*dfx['nuance32'][start]
+        soma1=soma1+cromo1.ix[6]*dfx['nuance41'][start]
+        soma1=soma1+cromo1.ix[7]*dfx['nuance42'][start]
+        soma1=soma1+cromo1.ix[8]*dfx['nuance51'][start]
+        soma1=soma1+cromo1.ix[9]*dfx['nuance52'][start]
+        soma1=soma1+cromo1.ix[10]*dfx['nuance61'][start]
+        soma1=soma1+cromo1.ix[11]*dfx['nuance62'][start]
+        soma1=soma1+cromo1.ix[12]*dfx['nuance71'][start]
+        soma1=soma1+cromo1.ix[13]*dfx['nuance72'][start]
+        soma1=soma1+cromo1.ix[14]*dfx['nuance81'][start]
+        soma1=soma1+cromo1.ix[15]*dfx['nuance82'][start]
+        soma1=soma1+cromo1.ix[16]*dfx['nuance91'][start]
+        soma1=soma1+cromo1.ix[17]*dfx['nuance92'][start]
+        #soma1=soma1+np.random.uniform(-1, 1)
+        test1=soma1.values
+        test1=np.array(test1)
+        arr1 = np.hstack((arr1, test1))
+        #print test
+        #f.write(arr)
+        #f.close()
+        df1=pd.DataFrame(arr1)
+        ############### CROMO 2
+        soma2= []
+        soma2=cromo2.ix[0]*dfx['nuance11'][start]
+        soma2=soma2+cromo2.ix[1]*dfx['nuance12'][start]
+        soma2=soma2+cromo2.ix[2]*dfx['nuance21'][start]
+        soma2=soma2+cromo2.ix[3]*dfx['nuance22'][start]
+        soma2=soma2+cromo2.ix[4]*dfx['nuance31'][start]
+        soma2=soma2+cromo2.ix[5]*dfx['nuance32'][start]
+        soma2=soma2+cromo2.ix[6]*dfx['nuance41'][start]
+        soma2=soma2+cromo2.ix[7]*dfx['nuance42'][start]
+        soma2=soma2+cromo2.ix[8]*dfx['nuance51'][start]
+        soma2=soma2+cromo2.ix[9]*dfx['nuance52'][start]
+        soma2=soma2+cromo2.ix[10]*dfx['nuance61'][start]
+        soma2=soma2+cromo2.ix[11]*dfx['nuance62'][start]
+        soma2=soma2+cromo2.ix[12]*dfx['nuance71'][start]
+        soma2=soma2+cromo2.ix[13]*dfx['nuance72'][start]
+        soma2=soma2+cromo2.ix[14]*dfx['nuance81'][start]
+        soma2=soma2+cromo2.ix[15]*dfx['nuance82'][start]
+        soma2=soma2+cromo2.ix[16]*dfx['nuance91'][start]
+        soma2=soma2+cromo2.ix[17]*dfx['nuance92'][start]
+        #soma2=soma2+np.random.uniform(-1, 1)
+        test2=soma2.values
+        test2=np.array(test2)
+        arr2 = np.hstack((arr2, test2))
+        #print test
+        #f.write(arr)
+        #f.close()
+        df2=pd.DataFrame(arr2)
+        ############### CROMO 3
+        soma3= []
+        soma3=cromo3.ix[0]*dfx['nuance11'][start]
+        soma3=soma3+cromo3.ix[1]*dfx['nuance12'][start]
+        soma3=soma3+cromo3.ix[2]*dfx['nuance21'][start]
+        soma3=soma3+cromo3.ix[3]*dfx['nuance22'][start]
+        soma3=soma3+cromo3.ix[4]*dfx['nuance31'][start]
+        soma3=soma3+cromo3.ix[5]*dfx['nuance32'][start]
+        soma3=soma3+cromo3.ix[6]*dfx['nuance41'][start]
+        soma3=soma3+cromo3.ix[7]*dfx['nuance42'][start]
+        soma3=soma3+cromo3.ix[8]*dfx['nuance51'][start]
+        soma3=soma3+cromo3.ix[9]*dfx['nuance52'][start]
+        soma3=soma3+cromo3.ix[10]*dfx['nuance61'][start]
+        soma3=soma3+cromo3.ix[11]*dfx['nuance62'][start]
+        soma3=soma3+cromo3.ix[12]*dfx['nuance71'][start]
+        soma3=soma3+cromo3.ix[13]*dfx['nuance72'][start]
+        soma3=soma3+cromo3.ix[14]*dfx['nuance81'][start]
+        soma3=soma3+cromo3.ix[15]*dfx['nuance82'][start]
+        soma3=soma3+cromo3.ix[16]*dfx['nuance91'][start]
+        soma3=soma3+cromo3.ix[17]*dfx['nuance92'][start]
+        #soma3=soma3+np.random.uniform(-1, 1)
+        test3=soma3.values
+        test3=np.array(test3)
+        arr3 = np.hstack((arr3, test3))
+        #print test
+        #f.write(arr)
+        #f.close()
+        df3=pd.DataFrame(arr3)
+        ############### CROMO 4
+        soma4= []
+        soma4=cromo4.ix[0]*dfx['nuance11'][start]
+        soma4=soma4+cromo4.ix[1]*dfx['nuance12'][start]
+        soma4=soma4+cromo4.ix[2]*dfx['nuance21'][start]
+        soma4=soma4+cromo4.ix[3]*dfx['nuance22'][start]
+        soma4=soma4+cromo4.ix[4]*dfx['nuance31'][start]
+        soma4=soma4+cromo4.ix[5]*dfx['nuance32'][start]
+        soma4=soma4+cromo4.ix[6]*dfx['nuance41'][start]
+        soma4=soma4+cromo4.ix[7]*dfx['nuance42'][start]
+        soma4=soma4+cromo4.ix[8]*dfx['nuance51'][start]
+        soma4=soma4+cromo4.ix[9]*dfx['nuance52'][start]
+        soma4=soma4+cromo4.ix[10]*dfx['nuance61'][start]
+        soma4=soma4+cromo4.ix[11]*dfx['nuance62'][start]
+        soma4=soma4+cromo4.ix[12]*dfx['nuance71'][start]
+        soma4=soma4+cromo4.ix[13]*dfx['nuance72'][start]
+        soma4=soma4+cromo4.ix[14]*dfx['nuance81'][start]
+        soma4=soma4+cromo4.ix[15]*dfx['nuance82'][start]
+        soma4=soma4+cromo4.ix[16]*dfx['nuance91'][start]
+        soma4=soma4+cromo4.ix[17]*dfx['nuance92'][start]
+        #soma4=soma4+np.random.uniform(-1, 1)
+        test4=soma4.values
+        test4=np.array(test4)
+        arr4 = np.hstack((arr4, test4))
+        #print test
+        #f.write(arr)
+        #f.close()
+        df4=pd.DataFrame(arr4)
+        ############### CROMO 5
+        soma5= []
+        soma5=cromo5.ix[0]*dfx['nuance11'][start]
+        soma5=soma5+cromo5.ix[1]*dfx['nuance12'][start]
+        soma5=soma5+cromo5.ix[2]*dfx['nuance21'][start]
+        soma5=soma5+cromo5.ix[3]*dfx['nuance22'][start]
+        soma5=soma5+cromo5.ix[4]*dfx['nuance31'][start]
+        soma5=soma5+cromo5.ix[5]*dfx['nuance32'][start]
+        soma5=soma5+cromo5.ix[6]*dfx['nuance41'][start]
+        soma5=soma5+cromo5.ix[7]*dfx['nuance42'][start]
+        soma5=soma5+cromo5.ix[8]*dfx['nuance51'][start]
+        soma5=soma5+cromo5.ix[9]*dfx['nuance52'][start]
+        soma5=soma5+cromo5.ix[10]*dfx['nuance61'][start]
+        soma5=soma5+cromo5.ix[11]*dfx['nuance62'][start]
+        soma5=soma5+cromo5.ix[12]*dfx['nuance71'][start]
+        soma5=soma5+cromo5.ix[13]*dfx['nuance72'][start]
+        soma5=soma5+cromo5.ix[14]*dfx['nuance81'][start]
+        soma5=soma5+cromo5.ix[15]*dfx['nuance82'][start]
+        soma5=soma5+cromo5.ix[16]*dfx['nuance91'][start]
+        soma5=soma5+cromo5.ix[17]*dfx['nuance92'][start]
+        #soma5=soma5+np.random.uniform(-1, 1)
+        test5=soma5.values
+        test5=np.array(test5)
+        arr5 = np.hstack((arr5, test5))
+        #print test
+        #f.write(arr)
+        #f.close()
+        df5=pd.DataFrame(arr5)
+        ############### CROMO 6
+        soma6= []
+        soma6=cromo6.ix[0]*dfx['nuance11'][start]
+        soma6=soma6+cromo6.ix[1]*dfx['nuance12'][start]
+        soma6=soma6+cromo6.ix[2]*dfx['nuance21'][start]
+        soma6=soma6+cromo6.ix[3]*dfx['nuance22'][start]
+        soma6=soma6+cromo6.ix[4]*dfx['nuance31'][start]
+        soma6=soma6+cromo6.ix[5]*dfx['nuance32'][start]
+        soma6=soma6+cromo6.ix[6]*dfx['nuance41'][start]
+        soma6=soma6+cromo6.ix[7]*dfx['nuance42'][start]
+        soma6=soma6+cromo6.ix[8]*dfx['nuance51'][start]
+        soma6=soma6+cromo6.ix[9]*dfx['nuance52'][start]
+        soma6=soma6+cromo6.ix[10]*dfx['nuance61'][start]
+        soma6=soma6+cromo6.ix[11]*dfx['nuance62'][start]
+        soma6=soma6+cromo6.ix[12]*dfx['nuance71'][start]
+        soma6=soma6+cromo6.ix[13]*dfx['nuance72'][start]
+        soma6=soma6+cromo6.ix[14]*dfx['nuance81'][start]
+        soma6=soma6+cromo6.ix[15]*dfx['nuance82'][start]
+        soma6=soma6+cromo6.ix[16]*dfx['nuance91'][start]
+        soma6=soma6+cromo6.ix[17]*dfx['nuance92'][start]
+        #soma6=soma6+np.random.uniform(-1, 1)
+        test6=soma6.values
+        test6=np.array(test6)
+        arr6 = np.hstack((arr6, test6))
+        #print test
+        #f.write(arr)
+        start =start+1
+        #f.close()
+        df6=pd.DataFrame(arr6)
+    return df1,df2,df3,df4,df5,df6
+
+
+
+### 11 # cromossomor original
+
+#################base 1 - disjungir 
+def separaroriginal():
+    global df1acertoa, df1acertoi, df2acertoa, df2acertoi, df3acertoa , df3acertoi , df4acertoa, df4acertoi, df5acertoa, df5acertoi, df6acertoa, df6acertoi
+    acertoi=0
+    acertoa=0
+    erro=0
+    df1acertoa=0
+    df1acertoi=0
+    df2acertoa=0
+    df2acertoi=0
+    df3acertoa=0
+    df3acertoi=0
+    df4acertoa=0
+    df4acertoi=0
+    df5acertoa=0
+    df5acertoi=0
+    df6acertoa=0
+    df6acertoi=0
+    varloop=0
+    #print "nome" + str(df1)
+    tamanhoescala = len(df1["Fitness"])
+    while varloop < tamanhoescala:
+        if df1['Resultado'][varloop] == "A" and df1['Fitness'][varloop] == "Correto":
+            df1acertoa = df1acertoa + 1
+            #print "acerto A:" + str(df1acertoa)
+        elif df1['Resultado'][varloop] == "I" and df1['Fitness'][varloop] == "Correto":
+            df1acertoi = df1acertoi + 1
+            #print "acerto I:" + str(df1acertoi)
+    ##df2
+        if df2['Resultado'][varloop] == "A" and df2['Fitness'][varloop] == "Correto":
+            df2acertoa = df2acertoa + 1
+        elif df2['Resultado'][varloop] == "I" and df2['Fitness'][varloop] == "Correto":
+            df2acertoi = df2acertoi + 1
+    ##df3
+        if df3['Resultado'][varloop] == "A" and df3['Fitness'][varloop] == "Correto":
+            df3acertoa = df3acertoa + 1
+        elif df3['Resultado'][varloop] == "I" and df3['Fitness'][varloop] == "Correto":
+            df3acertoi = df3acertoi + 1
+    ##df4
+        if df4['Resultado'][varloop] == "A" and df4['Fitness'][varloop] == "Correto":
+            df4acertoa = df4acertoa + 1
+        elif df4['Resultado'][varloop] == "I" and df4['Fitness'][varloop] == "Correto":
+            df4acertoi = df4acertoi + 1	
+    ##df5
+        if df5['Resultado'][varloop] == "A" and df5['Fitness'][varloop] == "Correto":
+            df5acertoa = df5acertoa + 1
+        elif df5['Resultado'][varloop] == "I" and df5['Fitness'][varloop] == "Correto":
+            df5acertoi = df5acertoi + 1	
+    ##df6
+        if df6['Resultado'][varloop] == "A" and df6['Fitness'][varloop] == "Correto":
+            df6acertoa = df6acertoa + 1
+        elif df6['Resultado'][varloop] == "I" and df6['Fitness'][varloop] == "Correto":
+            df6acertoi = df6acertoi + 1			
+        varloop = varloop+1
+        #print start
+    #print df1acertoa, df1acertoi
+    return df1acertoa, df1acertoi, df2acertoa, df2acertoi, df3acertoa , df3acertoi , df4acertoa, df4acertoi, df5acertoa, df5acertoi, df6acertoa, df6acertoi
+######	
+
+def colunas():
+    ###Criarcoluna resultado
+    df1["Resultado"] = np.nan
+    df2["Resultado"] = np.nan
+    df3["Resultado"] = np.nan
+    df4["Resultado"] = np.nan
+    df5["Resultado"] = np.nan
+    df6["Resultado"] = np.nan
+    df1["Fitness"] = np.nan
+    df2["Fitness"] = np.nan
+    df3["Fitness"] = np.nan
+    df4["Fitness"] = np.nan
+    df5["Fitness"] = np.nan
+    df6["Fitness"] = np.nan
+    return df1, df2,df3,df4,df5,df6
+
+	
+	
+def aoui():
+    names = [df1,df2,df3,df4,df5, df6]
+    start=0
+    tamanho = len(names) ## 10
+    for name in names:
+        varloop = 0
+        tamanhoescala = len(name["Resultado"])
+        #print name["Resultado"][varloop]
+        while varloop < tamanhoescala:
+            if name[0][varloop] > 0:
+                valor = 'A'
+                name["Resultado"][varloop] = valor
+            elif name[0][varloop] < 0:
+                valor = 'I'
+                name["Resultado"][varloop] = valor
+            varloop = varloop+1
+    return df1, df2, df3,df4,df5,df6
+###### 
+
+
+
+
+
+def certoerrado():
+    names = [df1,df2,df3,df4,df5, df6]
+    tamanho = len(names) ## 10
+    tamanhoescala = len(df1["Fitness"])
+    for name in names:
+        varloop = 0
+        while varloop < tamanhoescala:
+            if name['Resultado'][varloop] == df.Resultado[varloop]:
+                valor = 'Correto'
+                name['Fitness'][varloop] = valor
+            elif name['Resultado'][varloop] != df.Resultado[varloop]:
+                valor = 'Errado'
+                name['Fitness'][varloop] = valor
+            varloop = varloop+1
+    return df1,df2,df3,df4,df5, df6
+
+	
+	
+	
+	################ -> Conta acerto ou error na base original pra A e apra I
+
+##Conta acerto ou error na base original pra A e apra I
+
+###base original
+
+
+def baseoriginal():
+    global totala, totali
+    totala=0
+    totali=0
+    varloop=0
+    tamanhoescala = len(df['Resultado'])
+    while varloop < tamanhoescala:
+        if df['Resultado'][varloop] == "A":
+            totala = totala + 1
+        elif df['Resultado'][varloop] == "I":
+            totali = totali + 1
+        varloop = varloop+1
+    return totala,totali
+
+
+

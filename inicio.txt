@@ -1,0 +1,68 @@
+	
+import pandas as pd
+import random
+import numpy as np
+import csv
+from __future__ import division
+ 
+ 
+ 
+####### 1- criar 6 cromossos com 19 genes, para esse exemplo: e 6 genes
+
+## numero de genes
+vezes = 18
+##numero de cromossomos
+cromo = 6
+##numero de cromossomos - para usar no dataframe
+bancos = [ 'var', ]* cromo
+
+
+## funcaio para criar os genes
+def criargene(vezes):
+    resultado = []
+    x=0
+    while x < vezes:
+        resultado.append(np.random.uniform(-1, 1)) #hurst like
+        x = x+1
+    return resultado
+		
+
+
+#cromo1
+gene = criargene(vezes)
+cromo1 = pd.DataFrame(gene)
+
+#cromo2
+gene = criargene(vezes)
+cromo2 = pd.DataFrame(gene)
+
+#cromo3
+gene = criargene(vezes)
+cromo3 = pd.DataFrame(gene)
+
+#cromo4
+gene = criargene(vezes)
+cromo4 = pd.DataFrame(gene)
+
+#cromo5
+gene = criargene(vezes)
+cromo5 = pd.DataFrame(gene)
+
+#cromo6
+gene = criargene(vezes)
+cromo6 = pd.DataFrame(gene)
+
+
+
+####### 2- executar o data mart nesses cromossomos
+
+##ler dataset
+#dfx = pd.read_csv('c:/temp/survey.csv', sep = ';')
+#dfx = pd.read_csv('c:/temp/book2.csv', sep = ',') 
+#dfx = pd.read_csv('c:/temp/Book2.csv', sep = ',')
+#df = pd.read_csv('c:/temp/Book2.csv', sep = ',')
+#dfx = pd.read_csv('/Users/mojamac/Desktop/survey.csv', sep = ';')
+#df = pd.read_csv('/Users/mojamac/Desktop/survey.csv', sep = ';')
+dfx = pd.read_csv('/Users/mojamac/Desktop/Book2.csv', sep = ',')
+df = pd.read_csv('/Users/mojamac/Desktop/Book2.csv', sep = ',')
+
